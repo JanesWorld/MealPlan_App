@@ -1,3 +1,4 @@
+import { Checkbox, FormControlLabel } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -5,18 +6,15 @@ import { useParams } from "react-router-dom";
 const MealPage = ({ recipeId }) => {
   const { id } = useParams();
   const [recipeData, setRecipeData] = useState(null);
-  const appID = "3c552c56";
-  const appKey = "43d60ed61fccd8d04608bc7e66814e90";
 
   useEffect(() => {
     if (!id) return;
     const fetchRecipeData = async () => {
       try {
         const response = await axios.get(
-          `https://api.edamam.com/api/recipes/v2/${id}?type=public&app_id=${appID}&app_key=${appKey}`
+          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
         );
-
-        setRecipeData(response.data);
+        setRecipeData(response.data.meals[0]);
       } catch (error) {
         console.log(
           "Error fetching detailed Recipes",
@@ -26,21 +24,46 @@ const MealPage = ({ recipeId }) => {
       }
     };
     fetchRecipeData();
-  }, [recipeId]);
+  }, [id]);
 
   if (!recipeData) {
     return <div>Loading...</div>;
   }
 
-  const { recipe } = recipeData;
+  const { strInstructions, strMeal } = recipeData;
+
+  const ingredients = [];
+  for (let i = 1; i <= 20; i++) {
+    const ingredientKey = `strIngredient${i}`;
+    const measureKey = `strMeasure${i}`;
+
+    if (recipeData[ingredientKey]) {
+      ingredients.push(
+        `${recipeData[measureKey]} ${recipeData[ingredientKey]}`
+      );
+    } else {
+      break;
+    }
+  }
 
   return (
     <div>
-      <p>
-        <a href={recipe.url} target="_blank" rel="noopener noreferrer">
-          View the full recipe instructions here
-        </a>
-      </p>
+      <h2>{strMeal}</h2>
+      <h3>Ingredients:</h3>
+      <ul>
+        {ingredients.map((ingredient, index) => (
+          <li key={index}>{ingredient}</li>
+        ))}
+      </ul>
+      <h3>Instructions:</h3>
+      {strInstructions.split(". ").map((instruction, index) => (
+        <div key={index}>
+          <FormControlLabel
+            control={<Checkbox />}
+            label={`${index + 1}. ${instruction}`}
+          />
+        </div>
+      ))}
     </div>
   );
 };

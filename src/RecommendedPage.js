@@ -13,11 +13,11 @@ const RecommendedPage = ({ selectedCategory }) => {
     const fetchRecipes = async () => {
       try {
         const response = await axios.get(
-          `https://api.edamam.com/api/recipes/v2?type=public&q=${selectedCategory}&app_id=${appID}&app_key=${appKey}`
+          `https://www.themealdb.com/api/json/v1/1/filter.php?c=${selectedCategory}`
         );
 
         console.log(response.data.hits);
-        setRecipes(response.data.hits);
+        setRecipes(response.data.meals);
       } catch (error) {
         console.log("Error fetching recipes", error.message, error.response);
       }
@@ -31,7 +31,7 @@ const RecommendedPage = ({ selectedCategory }) => {
       <Container>
         <div className="recipe-container">
           {recipes.slice(0, 6).map((recipe) => (
-            <div key={recipe.recipe.uri} className="recipe-card">
+            <div key={recipe.idMeal} className="recipe-card">
               <RecipeCard recipe={recipe} />
             </div>
           ))}

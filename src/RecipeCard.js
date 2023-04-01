@@ -10,7 +10,7 @@ const RecipeCard = ({ recipe }) => {
     return null;
   }
 
-  const recipeID = getRecipeIdFromUri(recipe.recipe.uri);
+  const recipeID = recipe.idMeal;
   return (
     <div>
       <Card
@@ -22,13 +22,13 @@ const RecipeCard = ({ recipe }) => {
       >
         <CardContent>
           <img
-            src={recipe.recipe.image}
-            alt={recipe.recipe.label}
+            src={recipe.strMealThumb}
+            alt={recipe.strMeal}
             height="200px"
             width="200px"
           ></img>
-          <Typography>{recipe.recipe.label}</Typography>
-          <Typography>Duration: {recipe.recipe.totalTime} minutes</Typography>
+          <Typography>{recipe.strMeal}</Typography>
+          <Typography>Category: {recipe.strCategory}</Typography>
           <Button component={Link} to={`/meal/${recipeID}`}>
             Go To Recipe
           </Button>
