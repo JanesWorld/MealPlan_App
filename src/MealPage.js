@@ -41,27 +41,6 @@ const MealPage = ({ recipeId }) => {
           View the full recipe instructions here
         </a>
       </p>
-      {/* <h3>Meal Page here</h3>
-      <h1>{recipe.label}</h1>
-      <img src={recipe.image} alt={recipe.label} />
-      <h3>Ingredients</h3>
-      <ul>
-        {recipe.ingredients.map((ingredient, index) => (
-          <li key={index}>
-            <img src={ingredient.image} alt={ingredient.text} />
-            {ingredient.text}
-          </li>
-        ))}
-        <h3>How to cook </h3>
-        <ol>
-          {recipe.instructions.map((instruction, index) => (
-            <li key={index}>
-              <input type="checkbox" />
-              {instruction.text}
-            </li>
-          ))}
-        </ol>
-      </ul> */}
     </div>
   );
 };
