@@ -1,0 +1,89 @@
+{
+  "results": [
+    {
+      "id": 1,
+      "title": "Beef",
+      "image": "image-url-1",
+      "instructions": "Instructions for Mock Recipe 1",
+      "macroData": {
+        "protein": {
+          "amount": 20
+        },
+        "carbs": {
+          "amount": 100
+        },
+        "fat": {
+          "amount": 40
+        }
+      }
+    },
+    {
+      "id": 2,
+      "title": "Chicken",
+      "image": "image-url-1",
+      "instructions": "Instructions for Mock Recipe 2",
+      "macroData": {
+        "protein": {
+          "amount": 20
+        },
+        "carbs": {
+          "amount": 40
+        },
+        "fat": {
+          "amount": 10
+        }
+      }
+    },
+    {
+      "id": 3,
+      "title": "Vegetarian ",
+      "image": "image-url-1",
+      "instructions": "Instructions for Mock Recipe 3",
+      "macroData": {
+        "protein": {
+          "amount": 20
+        },
+        "carbs": {
+          "amount": 100
+        },
+        "fat": {
+          "amount": 100
+        }
+      }
+    },
+    {
+      "id": 4,
+      "title": "Chicken Brown",
+      "image": "image-url-1",
+      "instructions": "Instructions for Mock Recipe 4",
+      "macroData": {
+        "protein": {
+          "amount": 20
+        },
+        "carbs": {
+          "amount": 100
+        },
+        "fat": {
+          "amount": 5
+        }
+      }
+    },
+    {
+      "id": 5,
+      "title": "Beef Noodle Soup",
+      "image": "image-url-1",
+      "instructions": "Instructions for Mock Recipe 5",
+      "macroData": {
+        "protein": {
+          "amount": 30
+        },
+        "carbs": {
+          "amount": 80
+        },
+        "fat": {
+          "amount": 20
+        }
+      }
+    }
+  ]
+}

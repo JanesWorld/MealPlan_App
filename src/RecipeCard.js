@@ -1,40 +1,37 @@
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import { Stack } from "@mui/system";
 import { Link } from "react-router-dom";
 import React from "react";
 import { getRecipeIdFromUri } from "./helper";
+import { useNavigate } from "react-router-dom";
 
 const RecipeCard = ({ recipe }) => {
+  const navigate = useNavigate();
+
   if (!recipe) {
     return null;
   }
-
-  const recipeID = recipe.idMeal;
+  const { id, title, image, servings } = recipe;
+  const handleClick = () => {
+    navigate(`/meal/${id}`);
+  };
+  // const recipeID = recipe.idMeal;
   return (
-    <div>
-      <Card
-        sx={{
-          minWidth: 300,
-          maxWidth: 300,
-          height: 400,
-        }}
-      >
-        <CardContent>
-          <img
-            src={recipe.strMealThumb}
-            alt={recipe.strMeal}
-            height="200px"
-            width="200px"
-          ></img>
-          <Typography>{recipe.strMeal}</Typography>
-          <Typography>Category: {recipe.strCategory}</Typography>
-          <Button component={Link} to={`/meal/${recipeID}`}>
-            Go To Recipe
-          </Button>
-        </CardContent>
-      </Card>
-    </div>
+    <Card
+      sx={{
+        minWidth: 300,
+        maxWidth: 300,
+        height: 400,
+      }}
+    >
+      <CardMedia component="img" height="140" image={image} alt={title} />
+      <CardContent>
+        <Typography>{title}</Typography>
+        <Typography>Servings: {servings}</Typography>
+        <Button onClick={handleClick}>Go To Recipe</Button>
+      </CardContent>
+    </Card>
   );
 };
 
