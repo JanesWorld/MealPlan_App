@@ -1,105 +1,82 @@
 import { Button, Checkbox, FormControlLabel, Paper } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import NutritionChart from "./NutritionChart";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Container, Box } from "@mui/system";
 import Grid from "@mui/material/Grid";
-import mockData from "./mockData.json";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-const MealPage = () => {
-  const macroAPIKey = "cc6ee455a8654d52a2366389a365f39f";
+const MealPage = ({ selectedCategory }) => {
   const { id } = useParams();
   const [recipeData, setRecipeData] = useState(null);
-  const [macroData, setMacroData] = useState(null);
-  const [checkedItems, setCheckedItems] = useState({});
+  const [checked, setChecked] = useState([]);
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
 
-  const handleCheckboxChange = (event) => {
-    setCheckedItems({
-      ...checkedItems,
-      [event.target.name]: event.target.checked,
-    });
-  };
+  useEffect(() => {
+    if (!id) return;
+    const fetchRecipeData = async () => {
+      try {
+        const response = await axios.get(
+          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
+        );
+        setRecipeData(response.data.meals[0]);
+      } catch (error) {
+        console.log(
+          "Error fetching detailed Recipes",
+          error.message,
+          error.response
+        );
+      }
+    };
+    fetchRecipeData();
+  }, [id]);
+
+  if (!recipeData) {
+    return <div>Loading...</div>;
+  }
 
   const handleGoBack = () => {
     navigate(-1);
   };
 
-  useEffect(() => {
-    if (!id) return;
-
-    const fetchData = async () => {
-      // let callPoints = parseInt(localStorage.getItem("callPoints")) || 0;
-      let callPoints = 160;
-
-      try {
-        if (callPoints < 150) {
-          const [recipeResponse, macroResponse] = await Promise.all([
-            axios.get(
-              `https://api.spoonacular.com/recipes/${id}/information?apiKey=${macroAPIKey}`
-            ),
-            axios.get(
-              `https://api.spoonacular.com/recipes/${id}/nutritionWidget.json?apiKey=${macroAPIKey}`
-            ),
-          ]);
-          setRecipeData(recipeResponse.data);
-          setMacroData(macroResponse.data);
-        } else {
-          console.log("API Max reached, reverting to mock data");
-          const mockRecipe = mockData.results.find(
-            (recipe) => recipe.id === parseInt(id)
-          );
-          if (mockRecipe) {
-            setRecipeData(mockRecipe);
-            setMacroData(mockRecipe.macroData);
-          } else {
-            console.log("RECIPE NOT FOUND IN MOCK DATA ");
-          }
-        }
-      } catch (error) {
-        console.log("Error fetching data", error.message, error.response);
-      }
-    };
-    fetchData();
-  }, [id]);
-
-  if (!recipeData || !macroData) {
-    return <div>Loading...</div>;
-  }
-
-  const {
-    instructions: strInstructions,
-    title: strMeal,
-    extendedIngredients,
-  } = recipeData;
+  const { strInstructions, strMeal } = recipeData;
 
   const ingredients = [];
-  if (extendedIngredients) {
-    extendedIngredients.forEach((ingredient) => {
+  for (let i = 1; i <= 20; i++) {
+    const ingredientKey = `strIngredient${i}`;
+    const measureKey = `strMeasure${i}`;
+
+    if (recipeData[ingredientKey]) {
       ingredients.push(
-        `${ingredient.measures.metric.amount} ${ingredient.measures.metric.unitShort} ${ingredient.name}`
+        `${recipeData[measureKey]} ${recipeData[ingredientKey]}`
       );
-    });
+    } else {
+      break;
+    }
   }
-  // for (let i = 1; i <= 20; i++) {
-  //   const ingredientKey = `strIngredient${i}`;
-  //   const measureKey = `strMeasure${i}`;
 
-  //   if (recipeData[ingredientKey]) {
-  //     ingredients.push(
-  //       `${recipeData[measureKey]} ${recipeData[ingredientKey]}`
-  //     );
-  //   } else {
-  //     break;
-  //   }
+  const handleCheckbox = (event, index) => {
+    const newChecked = { ...checked };
+    if (event.target.checked) {
+      newChecked[index] = true;
+    } else {
+      delete newChecked[index];
+    }
+    setChecked(newChecked);
+  };
 
-  const chartData = [
-    { name: "Protein", value: macroData.protein?.amount || 0 },
-    { name: "Carbs", value: macroData.carbs?.amount || 0 },
-    { name: "Fat", value: macroData.fat?.amount || 0 },
-  ];
+  const handlePageChange = (direction) => {
+    const newPage = direction === "back" ? page - 1 : page + 1;
+    setPage(newPage);
+  };
+
+  const startIndex = (page - 1) * 5;
+  const endIndex = startIndex + 5;
+  const displayedInstructions = strInstructions
+    .split(". ")
+    .slice(startIndex, endIndex);
 
   return (
     <Container>
@@ -114,28 +91,40 @@ const MealPage = () => {
           xs={12}
           sx={{
             display: "flex",
+            flexDirection: "column",
           }}
         >
-          <h2 style={{ display: "flex", marginLeft: "80px" }}>{strMeal}</h2>
+          <h2
+            style={{
+              display: "flex",
+              fontWeight: "bold",
+              margin: 0,
+              padding: 0,
+            }}
+          >
+            {strMeal}
+          </h2>
+          <h3 style={{ fontWeight: "lighter", margin: 0, paddingTop: "5px" }}>
+            #{selectedCategory}
+          </h3>
         </Grid>
         <Grid item container xs={12}>
           <Grid item xs={6}>
             <img
-              src={recipeData.image}
-              alt={recipeData.title}
+              src={recipeData.strMealThumb}
+              alt={recipeData.strMeal}
               height="300"
               width="320"
             />
           </Grid>
           <Grid item xs={6} container alignItems="center">
-            <NutritionChart nutritionData={chartData} />
             <Button
               onClick={handleGoBack}
               sx={{
                 color: "white",
-                backgroundColor: "green",
+                backgroundColor: "#264653",
                 ":hover": {
-                  backgroundColor: "#0D99FF",
+                  backgroundColor: "#E9C46A",
                   color: "black",
                 },
               }}
@@ -145,11 +134,17 @@ const MealPage = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid container sx={{ marginTop: "30px" }}>
-        <Grid item xs={12}>
-          <h3>Ingredients:</h3>
-        </Grid>
+      <Grid
+        container
+        sx={{
+          marginTop: "30px",
+          display: "flex",
+          flexDirection: "row",
+          marginBottom: "40px",
+        }}
+      >
         <Grid item xs={5}>
+          <h3>Ingredients:</h3>
           <Box>
             {ingredients.map((ingredient, index) => (
               <Box
@@ -164,32 +159,33 @@ const MealPage = () => {
         </Grid>
 
         <Grid item xs={7}>
-          <h3>Instructions:</h3>
-          {strInstructions &&
-            strInstructions.split(". ").map((instruction, index) => (
+          <Container sx={{ border: "2px solid black", borderRadius: "10px" }}>
+            <h3>Instructions:</h3>
+            {displayedInstructions.map((instruction, index) => (
               <Grid container key={index} alignItems="flex-start">
                 <Grid item xs={11}>
                   <Box
                     sx={{
                       borderRadius: "10px",
-                      // border: "1px solid yellow",
+                      border: checked[startIndex + index]
+                        ? "1px solid grey"
+                        : "1px solid #E76F51",
                       padding: "10px",
                       marginBottom: "10px",
+                      backgroundColor: checked[startIndex + index]
+                        ? "grey"
+                        : "#E76F51",
                       display: "flex",
-                      backgroundColor: checkedItems[index] ? "grey" : "#FFCD29",
-                      textDecoration: checkedItems[index]
-                        ? "line-through"
-                        : "none",
-                      textDecorationColor: "red",
+                      textDecoration: checked[index] && "line-through",
                     }}
                   >
-                    {`${index + 1}. ${instruction}`}
+                    {`${startIndex + index + 1}. ${instruction}`}
                   </Box>
                 </Grid>
                 <Grid item xs={1}>
                   <Checkbox
-                    name={index.toString()}
-                    onChange={handleCheckboxChange}
+                    checked={checked[startIndex + index]}
+                    onChange={(event) => handleCheckbox(event, instruction)}
                     sx={{
                       color: "#0D99FF",
                       "&.Mui-checked": {
@@ -200,6 +196,30 @@ const MealPage = () => {
                 </Grid>
               </Grid>
             ))}
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-around",
+              }}
+            >
+              <Button
+                onClick={() => handlePageChange("back")}
+                disabled={page === 1}
+              >
+                <ArrowBackIcon />
+              </Button>
+
+              <Button
+                onClick={() => handlePageChange("forward")}
+                disabled={endIndex >= strInstructions.split(". ").length}
+              >
+                <ArrowForwardIcon />
+              </Button>
+            </Grid>
+          </Container>
         </Grid>
       </Grid>
     </Container>

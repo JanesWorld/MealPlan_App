@@ -22,7 +22,10 @@ function App() {
               path="/recommended"
               element={<RecommendedPage selectedCategory={selectedCategory} />}
             />
-            <Route path="/meal/:id" element={<MealPage />} />
+            <Route
+              path="/meal/:id"
+              element={<MealPage selectedCategory={selectedCategory} />}
+            />
           </Routes>
         </Layout>
       </Router>

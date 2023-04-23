@@ -1,33 +1,107 @@
-import { Button } from "@mui/material";
+import { Box, Button, Stack, Typography, Grid } from "@mui/material";
 import { Container } from "@mui/system";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import RecipeCard from "./RecipeCard";
+import LatestRecipes from "./LatestRecipes";
 
 const HomePage = ({ setSelectedCategory }) => {
   let navigate = useNavigate();
   const meatType = ["Beef", "Chicken", "Lamb", "Vegan"];
 
+  const handleChooseForMe = () => {
+    const randomIndex = Math.floor(Math.random() * meatType.length);
+    setSelectedCategory(meatType[randomIndex]);
+    navigate("/recommended");
+  };
+
   return (
-    <div style={{ backgroundColor: "lightBlue" }}>
-      <h3>Choose your meat type</h3>
+    <div style={{ backgroundColor: "white" }}>
+      <h2
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          paddingTop: "10px",
+        }}
+      >
+        Choose your meat type
+      </h2>
       <Container>
-        {meatType.map((val, id) => {
-          return (
+        <Container
+          sx={{
+            border: "1px solid lightgrey",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            height: "240px",
+            width: "80%",
+          }}
+        >
+          <Stack
+            paddingTop="22px"
+            paddingBottom="10px"
+            direction="column"
+            spacing={2}
+            width="80%"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+          >
+            {meatType.map((val, id) => {
+              return (
+                <Button
+                  sx={{
+                    backgroundColor: "#E76F51",
+                    "&:hover": {
+                      backgroundColor: "#E9C46A",
+                      color: "white",
+                    },
+                    color: "white",
+                    width: "50%",
+                  }}
+                  key={id}
+                  onClick={() => {
+                    setSelectedCategory(val);
+                    navigate("/recommended");
+                  }}
+                >
+                  {val}
+                </Button>
+              );
+            })}
+          </Stack>
+        </Container>
+        <Container sx={{ marginTop: "30px", marginBottom: "10px" }}>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
             <Button
-              key={id}
-              onClick={() => {
-                setSelectedCategory(val);
-                navigate("/recommended");
+              onClick={handleChooseForMe}
+              sx={{
+                backgroundColor: "#264653",
+                color: "white",
+                borderRadius: "18px",
+                width: "30%",
+                "&:hover": {
+                  backgroundColor: "#E9C46A",
+                  color: "white",
+                },
               }}
             >
-              {val}
+              Choose for me
             </Button>
-          );
-        })}
+          </Grid>
+        </Container>
+
         <div style={{ marginTop: "50px", marginBottom: "50px" }}>
-          <RecipeCard />
+          <LatestRecipes />
         </div>
       </Container>
     </div>
