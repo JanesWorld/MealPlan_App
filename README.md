@@ -1,3 +1,14 @@
+# Application Roadmap
+There are multiple versions of this application 
+v1 - Attempts to create the simple structure and attain the data from the API
+v2 - Attempts to improve the styling of the application, this should inclue phone usage as well
+
+# Future Versions
+v3 - Will attempt to link to a macronutrient API to allow the user to have a macro breakdown of each meal and be available through a phone application
+v4 - Will bring in user authentication, allow users to favourite meals, allow users to add ingredients they want to make to a 'Shopping List', 
+v5 - Will allow users to learn the basics of cooking through an embedded tab that will 
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
