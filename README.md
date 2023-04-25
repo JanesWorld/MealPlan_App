@@ -1,3 +1,7 @@
+# About Meal Plan Application 
+The purpose of this application is to allow busy people to cook a quick meal based on their health goals with just what they have in their fridge and cupboard. 
+The app will evolve starting off with a basic version that will connect to an API that houses recipes and advance all the way to a full blown mobile application. The roadmap highlights which functionalities you should expect at each version. 
+
 # Application Roadmap
 There are multiple versions of this application 
 v1 - Attempts to create the simple structure and attain the data from the API
