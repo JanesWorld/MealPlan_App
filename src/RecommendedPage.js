@@ -8,6 +8,8 @@ import "./RecommendedPage.css";
 const RecommendedPage = ({ selectedCategory }) => {
   const [recipes, setRecipes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const recipesPerPage = 6;
+
   const appID = "3c552c56";
   const appKey = "43d60ed61fccd8d04608bc7e66814e90";
 
@@ -27,6 +29,14 @@ const RecommendedPage = ({ selectedCategory }) => {
     fetchRecipes();
   }, [selectedCategory]);
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const indexOfLastRecipe = currentPage * recipesPerPage;
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+  const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+
   console.log("Category", selectedCategory);
   return (
     <Container>
@@ -37,25 +47,53 @@ const RecommendedPage = ({ selectedCategory }) => {
       </h2>
       <Container>
         <div className="recipe-container">
-          {recipes &&
-            recipes.slice(0, 6).map((recipe) => (
-              <div key={recipe.idMeal} className="recipe-card">
-                <RecipeCard recipe={recipe} />
-              </div>
-            ))}
+          {currentRecipes.map((recipe) => (
+            <div key={recipe.idMeal} className="recipe-card">
+              <RecipeCard recipe={recipe} />
+            </div>
+          ))}
         </div>
-        <div>
-          <Button
-            sx={{
-              backgroundColor: "black",
-              color: "white",
-              width: "30%",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            Next Page
-          </Button>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            paddingTop: "20px",
+          }}
+        >
+          {currentPage > 1 && (
+            <Button
+              onClick={() => handlePageChange(currentPage - 1)}
+              sx={{
+                backgroundColor: "black",
+                color: "white",
+                borderRadius: "8px",
+                width: "15%",
+                "&:hover": {
+                  backgroundColor: "#13AF5C",
+                  color: "white",
+                },
+              }}
+            >
+              Previous
+            </Button>
+          )}
+          {currentRecipes.length === recipesPerPage && (
+            <Button
+              onClick={() => handlePageChange(currentPage + 1)}
+              sx={{
+                backgroundColor: "black",
+                color: "white",
+                borderRadius: "8px",
+                width: "15%",
+                "&:hover": {
+                  backgroundColor: "#13AF5C",
+                  color: "white",
+                },
+              }}
+            >
+              Next
+            </Button>
+          )}
         </div>
       </Container>
     </Container>

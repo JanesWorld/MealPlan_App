@@ -182,18 +182,6 @@ const MealPage = ({ selectedCategory }) => {
                     {`${startIndex + index + 1}. ${instruction}`}
                   </Box>
                 </Grid>
-                <Grid item xs={1}>
-                  <Checkbox
-                    checked={checked[startIndex + index]}
-                    onChange={(event) => handleCheckbox(event, instruction)}
-                    sx={{
-                      color: "#0D99FF",
-                      "&.Mui-checked": {
-                        color: "#0D99FF",
-                      },
-                    }}
-                  />
-                </Grid>
               </Grid>
             ))}
             <Grid
