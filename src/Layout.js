@@ -1,4 +1,4 @@
-import { Button, Container, Typography, Box } from "@mui/material";
+import { Button, Container, Typography, Box, Stack } from "@mui/material";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -6,7 +6,14 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const pathName = location.pathname;
   return (
-    <Container sx={{ backgroundColor: "#eae2b7", marginBottom: "30px" }}>
+    <Container
+      sx={{
+        backgroundColor: "#F7EEE0",
+        marginBottom: "30px",
+        marginTop: "30px",
+        borderRadius: "8px",
+      }}
+    >
       <div
         style={{
           display: "flex",
@@ -15,32 +22,35 @@ const Layout = ({ children }) => {
           alignItems: "center",
         }}
       >
-        <Typography variant="h5" fontWeight="light" paddingLeft="5px">
-          Plan a meal
-        </Typography>
+        <h1>Meal Plan</h1>
         <Box
           sx={{
-            backgroundColor: "#264653",
+            backgroundColor: "#BCA987",
             borderRadius: "10px",
-            width: "30%",
+            width: "45%",
             marginTop: "20px",
             marginBottom: "10px",
             display: "flex",
             justifyContent: "center",
           }}
         >
-          <Button
-            component={Link}
-            to="/"
-            sx={{ backgroundColor: "#264653", color: "white" }}
-          >
-            Back Home
-          </Button>
+          <Stack direction="row" spacing={2}>
+            <Button component={Link} to="/" sx={{ color: "black" }}>
+              Home
+            </Button>
+
+            <Button component={Link} to="/favourites" sx={{ color: "black" }}>
+              Favourites
+            </Button>
+            <Button component={Link} to="/courses" sx={{ color: "black" }}>
+              Education
+            </Button>
+          </Stack>
         </Box>
       </div>
-      <div
+      {/* <div
         style={{
-          backgroundColor: "#FFCD29",
+          backgroundColor: "#FECD2A",
           height: "120px",
           display: "flex",
           alignItems: "center",
@@ -55,7 +65,7 @@ const Layout = ({ children }) => {
           Time and health are two precious assets that we don't recognize and
           appreciate until they have been depleted.
         </Typography>
-      </div>
+      </div> */}
       <div style={{ paddingBottom: "30px" }}>{children}</div>
     </Container>
   );

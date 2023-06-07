@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import RecipeCard from "./RecipeCard";
-import { Container, Typography, Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import axios from "axios";
 
 const LatestRecipes = () => {
@@ -24,12 +24,17 @@ const LatestRecipes = () => {
     fetchLatestRecipes();
   }, []);
   return (
-    <Container sx={{ display: "flex", flexDirection: "row" }}>
+    <Container
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: "#F7EEE0",
+        // marginBottom: "30px",
+      }}
+    >
       <Grid container marginBottom="40px">
-        <Grid item xs={12} marginBottom="40px">
-          <Typography variant="h4" fontWeight="bold">
-            Latest Recipes
-          </Typography>
+        <Grid item xs={12} marginBottom="20px">
+          <h2>Latest Recipes</h2>
         </Grid>
         <Grid
           item

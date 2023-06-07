@@ -17,17 +17,31 @@ const HomePage = ({ setSelectedCategory }) => {
   };
 
   return (
-    <div style={{ backgroundColor: "white" }}>
-      <h2
+    <div style={{ backgroundColor: "white", paddingTop: "15px" }}>
+      <div
         style={{
+          height: "50px",
+          margin: "0 auto",
+          width: "60%",
+          backgroundColor: "#FECD2A",
           display: "flex",
           justifyContent: "center",
-          paddingTop: "10px",
+          alignItems: "center",
+          paddingBottom: "5px",
+          borderRadius: "8px",
         }}
       >
-        Choose your meat type
-      </h2>
-      <Container>
+        <h2
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: "10px",
+          }}
+        >
+          Choose your meat type
+        </h2>
+      </div>
+      <Container sx={{ paddingTop: "20px" }}>
         <Container
           sx={{
             border: "1px solid lightgrey",
@@ -52,9 +66,9 @@ const HomePage = ({ setSelectedCategory }) => {
               return (
                 <Button
                   sx={{
-                    backgroundColor: "#E76F51",
+                    backgroundColor: "#0085e7",
                     "&:hover": {
-                      backgroundColor: "#E9C46A",
+                      backgroundColor: "#13AF5C",
                       color: "white",
                     },
                     color: "white",
@@ -85,12 +99,12 @@ const HomePage = ({ setSelectedCategory }) => {
             <Button
               onClick={handleChooseForMe}
               sx={{
-                backgroundColor: "#264653",
+                backgroundColor: "black",
                 color: "white",
                 borderRadius: "18px",
                 width: "30%",
                 "&:hover": {
-                  backgroundColor: "#E9C46A",
+                  backgroundColor: "#13AF5C",
                   color: "white",
                 },
               }}

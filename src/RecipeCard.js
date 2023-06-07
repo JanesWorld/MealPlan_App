@@ -16,7 +16,8 @@ const RecipeCard = ({ recipe }) => {
           minWidth: 300,
           maxWidth: 300,
           height: 400,
-          backgroundColor: "#2A9D8F",
+          backgroundColor: "#FAF9F6",
+
           boxShadow: "10px 4px 2px rgba(0, 0, 0, 0.15)",
         }}
       >
@@ -33,21 +34,21 @@ const RecipeCard = ({ recipe }) => {
             height="70%"
             width="90%"
           ></img>
-          <Typography
-            variant="h6"
+          <h3
             fontWeight="bold"
-            sx={{
-              paddingTop: "15px",
-              height: 60,
+            style={{
+              paddingTop: "6px",
+              letterSpacing: "0.1em",
+              color: "black",
+              height: 30,
               overflow: "hidden",
               textOverflow: "ellipsis",
             }}
           >
             {recipe.strMeal}
-          </Typography>
+          </h3>
           <Button
             sx={{
-              marginTop: "15px",
               backgroundColor: "#264653",
               "&:hover": {
                 backgroundColor: "#E9C46A",

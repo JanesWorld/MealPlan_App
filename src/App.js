@@ -5,6 +5,8 @@ import RecommendedPage from "./RecommendedPage";
 import { useState } from "react";
 import MealPage from "./MealPage";
 import Layout from "./Layout";
+import Favourites from "./Favourites";
+import Courses from "./Courses";
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -26,6 +28,8 @@ function App() {
               path="/meal/:id"
               element={<MealPage selectedCategory={selectedCategory} />}
             />
+            <Route path="/favourites" element={<Favourites />} />
+            <Route path="/courses" element={<Courses />} />
           </Routes>
         </Layout>
       </Router>

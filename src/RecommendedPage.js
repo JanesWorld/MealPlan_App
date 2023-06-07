@@ -1,4 +1,5 @@
 import { Container } from "@mui/system";
+import { Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import RecipeCard from "./RecipeCard";
 import axios from "axios";
@@ -6,6 +7,7 @@ import "./RecommendedPage.css";
 
 const RecommendedPage = ({ selectedCategory }) => {
   const [recipes, setRecipes] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const appID = "3c552c56";
   const appKey = "43d60ed61fccd8d04608bc7e66814e90";
 
@@ -41,6 +43,19 @@ const RecommendedPage = ({ selectedCategory }) => {
                 <RecipeCard recipe={recipe} />
               </div>
             ))}
+        </div>
+        <div>
+          <Button
+            sx={{
+              backgroundColor: "black",
+              color: "white",
+              width: "30%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            Next Page
+          </Button>
         </div>
       </Container>
     </Container>
