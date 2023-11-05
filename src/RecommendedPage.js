@@ -20,10 +20,11 @@ const RecommendedPage = ({ selectedCategory }) => {
           `https://www.themealdb.com/api/json/v1/1/filter.php?c=${selectedCategory}`
         );
 
-        console.log(response.data.hits);
-        setRecipes(response.data.meals);
+        console.log(response.data.meals);
+        setRecipes(response.data.meals || []);
       } catch (error) {
         console.log("Error fetching recipes", error.message, error.response);
+        setRecipes([]);
       }
     };
     fetchRecipes();
@@ -35,7 +36,9 @@ const RecommendedPage = ({ selectedCategory }) => {
 
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-  const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+  const currentRecipes = recipes.length
+    ? recipes.slice(indexOfFirstRecipe, indexOfLastRecipe)
+    : [];
 
   console.log("Category", selectedCategory);
   return (

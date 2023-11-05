@@ -29,7 +29,6 @@ const LatestRecipes = () => {
         display: "flex",
         flexDirection: "row",
         backgroundColor: "#F7EEE0",
-        // marginBottom: "30px",
       }}
     >
       <Grid container marginBottom="40px">
