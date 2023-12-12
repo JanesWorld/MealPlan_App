@@ -10,9 +10,6 @@ const RecommendedPage = ({ selectedCategory }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 6;
 
-  const appID = "3c552c56";
-  const appKey = "43d60ed61fccd8d04608bc7e66814e90";
-
   useEffect(() => {
     const fetchRecipes = async () => {
       try {

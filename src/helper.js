@@ -1,4 +1,3 @@
-// helper.js
 export const getRecipeIdFromUri = (uri) => {
   const regex = /#recipe_(.*)/;
   const match = uri.match(regex);

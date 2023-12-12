@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel, Paper } from "@mui/material";
+import { Button } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,14 +14,39 @@ const MealPage = ({ selectedCategory }) => {
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   if (!id) return;
+  //   const fetchRecipeData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
+  //       );
+  //       setRecipeData(response.data.meals[0]);
+  //     } catch (error) {
+  //       console.log(
+  //         "Error fetching detailed Recipes",
+  //         error.message,
+  //         error.response
+  //       );
+  //     }
+  //   };
+  //   fetchRecipeData();
+  // }, [recipeData, id]);
+
   useEffect(() => {
-    if (!id) return;
     const fetchRecipeData = async () => {
       try {
+        if (!id) return;
         const response = await axios.get(
           `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
         );
-        setRecipeData(response.data.meals[0]);
+        const fetchedRecipeData = response.data.meals[0];
+        setRecipeData(fetchedRecipeData);
+
+        // Initialize 'checked' state based on the number of instructions
+        const instructionCount =
+          fetchedRecipeData.strInstructions.split(". ").length;
+        setChecked(new Array(instructionCount).fill(false));
       } catch (error) {
         console.log(
           "Error fetching detailed Recipes",
@@ -30,6 +55,7 @@ const MealPage = ({ selectedCategory }) => {
         );
       }
     };
+
     fetchRecipeData();
   }, [id]);
 
@@ -39,6 +65,15 @@ const MealPage = ({ selectedCategory }) => {
 
   const handleGoBack = () => {
     navigate(-1);
+  };
+
+  const handleCheck = (index) => {
+    // Toggle the checked state of the instruction at the given index
+    setChecked((prevChecked) => {
+      const newChecked = [...prevChecked];
+      newChecked[index] = !newChecked[index];
+      return newChecked;
+    });
   };
 
   const { strInstructions, strMeal } = recipeData;
@@ -56,16 +91,6 @@ const MealPage = ({ selectedCategory }) => {
       break;
     }
   }
-
-  const handleCheckbox = (event, index) => {
-    const newChecked = { ...checked };
-    if (event.target.checked) {
-      newChecked[index] = true;
-    } else {
-      delete newChecked[index];
-    }
-    setChecked(newChecked);
-  };
 
   const handlePageChange = (direction) => {
     const newPage = direction === "back" ? page - 1 : page + 1;
@@ -178,6 +203,7 @@ const MealPage = ({ selectedCategory }) => {
                       display: "flex",
                       textDecoration: checked[index] && "line-through",
                     }}
+                    onClick={() => handleCheck(startIndex + index)}
                   >
                     {`${startIndex + index + 1}. ${instruction}`}
                   </Box>

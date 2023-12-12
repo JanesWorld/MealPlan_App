@@ -1,9 +1,7 @@
-import { Box, Button, Stack, Typography, Grid } from "@mui/material";
+import { Button, Stack, Grid } from "@mui/material";
 import { Container } from "@mui/system";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import RecipeCard from "./RecipeCard";
+import React from "react";
 import LatestRecipes from "./LatestRecipes";
 
 const HomePage = ({ setSelectedCategory }) => {

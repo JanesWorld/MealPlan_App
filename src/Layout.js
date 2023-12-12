@@ -1,10 +1,8 @@
-import { Button, Container, Typography, Box, Stack } from "@mui/material";
+import { Button, Container, Box, Stack } from "@mui/material";
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Layout = ({ children }) => {
-  const location = useLocation();
-  const pathName = location.pathname;
   return (
     <Container
       sx={{
@@ -48,24 +46,7 @@ const Layout = ({ children }) => {
           </Stack>
         </Box>
       </div>
-      {/* <div
-        style={{
-          backgroundColor: "#FECD2A",
-          height: "120px",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <Typography
-          variant="h5"
-          fontWeight="bold"
-          width="80%"
-          paddingLeft="30px"
-        >
-          Time and health are two precious assets that we don't recognize and
-          appreciate until they have been depleted.
-        </Typography>
-      </div> */}
+
       <div style={{ paddingBottom: "30px" }}>{children}</div>
     </Container>
   );

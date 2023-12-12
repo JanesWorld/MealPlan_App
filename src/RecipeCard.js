@@ -1,4 +1,4 @@
-import { Card, CardContent, Grid, Typography } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import React from "react";
@@ -32,7 +32,7 @@ const RecipeCard = ({ recipe }) => {
           height: 380,
           backgroundColor: "#FAF9F6",
           boxShadow: "10px 4px 2px rgba(0, 0, 0, 0.15)",
-          position: "relative", // for absolute positioning of the star button
+          position: "relative",
           paddingTop: "32px",
         }}
       >
