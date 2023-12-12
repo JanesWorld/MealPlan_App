@@ -3,7 +3,6 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart } from "chart.js";
 import { CategoryScale } from "chart.js/auto";
 
-// Register the CategoryScale
 Chart.register(CategoryScale);
 
 const NutritionChart = ({ nutritionData }) => {
