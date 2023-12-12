@@ -7,33 +7,38 @@ import MealPage from "./MealPage";
 import Layout from "./Layout";
 import Favourites from "./Favourites";
 import Courses from "./Courses";
+import { FavouritesProvider } from "./Context/FavouritesContext";
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState("");
 
   return (
-    <div className="App">
-      <Router>
-        <Layout>
-          <Routes>
-            <Route
-              path="/"
-              element={<HomePage setSelectedCategory={setSelectedCategory} />}
-            />
-            <Route
-              path="/recommended"
-              element={<RecommendedPage selectedCategory={selectedCategory} />}
-            />
-            <Route
-              path="/meal/:id"
-              element={<MealPage selectedCategory={selectedCategory} />}
-            />
-            <Route path="/favourites" element={<Favourites />} />
-            <Route path="/courses" element={<Courses />} />
-          </Routes>
-        </Layout>
-      </Router>
-    </div>
+    <FavouritesProvider>
+      <div className="App">
+        <Router>
+          <Layout>
+            <Routes>
+              <Route
+                path="/"
+                element={<HomePage setSelectedCategory={setSelectedCategory} />}
+              />
+              <Route
+                path="/recommended"
+                element={
+                  <RecommendedPage selectedCategory={selectedCategory} />
+                }
+              />
+              <Route
+                path="/meal/:id"
+                element={<MealPage selectedCategory={selectedCategory} />}
+              />
+              <Route path="/favourites" element={<Favourites />} />
+              <Route path="/courses" element={<Courses />} />
+            </Routes>
+          </Layout>
+        </Router>
+      </div>
+    </FavouritesProvider>
   );
 }
 

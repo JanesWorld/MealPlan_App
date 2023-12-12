@@ -1,26 +1,55 @@
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Grid, Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import React from "react";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import StarIcon from "@mui/icons-material/Star";
+import { useFavourites } from "./Context/FavouritesContext";
 
 const RecipeCard = ({ recipe }) => {
+  const { favourites, addToFavourites, removeFromFavourites } = useFavourites();
   if (!recipe || !recipe.idMeal) {
     return null;
   }
 
   const recipeID = recipe.idMeal;
+  const isFavourite = favourites.some((fav) => fav.idMeal === recipeID);
+
+  const handleFavouriteClick = () => {
+    if (isFavourite) {
+      removeFromFavourites(recipe.idMeal);
+    } else {
+      addToFavourites(recipe);
+    }
+  };
+
   return (
     <div>
       <Card
         sx={{
           minWidth: 300,
           maxWidth: 300,
-          height: 400,
+          height: 380,
           backgroundColor: "#FAF9F6",
-
           boxShadow: "10px 4px 2px rgba(0, 0, 0, 0.15)",
+          position: "relative", // for absolute positioning of the star button
+          paddingTop: "32px",
         }}
       >
+        <Button
+          onClick={handleFavouriteClick}
+          sx={{
+            position: "absolute",
+            top: "0",
+            right: "10px",
+            minWidth: "unset",
+            padding: "5px",
+            zIndex: 2,
+          }}
+        >
+          {isFavourite ? <StarIcon /> : <StarOutlineIcon />}
+        </Button>
+
         <CardContent
           sx={{
             display: "flex",
@@ -33,8 +62,8 @@ const RecipeCard = ({ recipe }) => {
             alt={recipe.strMeal}
             height="70%"
             width="90%"
-          ></img>
-          <h3
+          />
+          <Typography
             fontWeight="bold"
             style={{
               paddingTop: "6px",
@@ -46,7 +75,7 @@ const RecipeCard = ({ recipe }) => {
             }}
           >
             {recipe.strMeal}
-          </h3>
+          </Typography>
           <Button
             sx={{
               backgroundColor: "#264653",
@@ -54,6 +83,7 @@ const RecipeCard = ({ recipe }) => {
                 backgroundColor: "#E9C46A",
               },
               borderRadius: "20px",
+              marginTop: "8px",
             }}
             variant="contained"
             component={Link}
